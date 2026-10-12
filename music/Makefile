@@ -1,3 +1,5 @@
+PS1PACKER ?= ../ps1-packer
+
 all: music-upload.o
 
 TARGET = music
@@ -11,7 +13,7 @@ LittleCottonPillow-v260.smp \
 include ../third_party/nugget/common.mk
 
 music-upload.bin: $(TARGET).ps-exe
-	../ps1-packer $< -raw -o $@
+	$(PS1PACKER) $< -raw -o $@
 
 music-upload.o: music-upload.bin
 	$(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips $< $@

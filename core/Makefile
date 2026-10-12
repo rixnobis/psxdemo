@@ -1,3 +1,5 @@
+PS1PACKER ?= ../ps1-packer
+
 all: core.o
 
 TARGET = torus
@@ -16,7 +18,7 @@ LDFLAGS += -Xlinker --defsym=TLOAD_ADDR=0x80001000
 include ../third_party/nugget/psyqo/psyqo.mk
 
 core.bin: $(TARGET).ps-exe
-	../ps1-packer $< -raw -nokernel -resetstack -o $@
+	$(PS1PACKER) $< -raw -nokernel -resetstack -o $@
 
 core.o: core.bin
 	$(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips $< $@
